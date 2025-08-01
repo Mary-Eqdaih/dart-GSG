@@ -1,7 +1,7 @@
 //1. Define a class named Student with the following properties:
 class Student {
   String _name;
-  double _grade;
+  late double _grade;
   String? _email;
   String? _address;
   String? _phone;
@@ -12,9 +12,18 @@ class Student {
   // 2. Create a constructor for Student that requires only name and grade upon initialization.
   Student({required String name, required double grade})
     : _name = name,
-      _grade = grade,
       // when object created the id will increament by one for each object
-      _id = _counter++;
+      _id = _counter++ {
+    if (grade >= 0 && grade <= 100) {
+      _grade = grade;
+    } else {
+     print("Invalid Grade The Grade Must Be Between 0 and 100");
+      _grade = 0.0;
+    }
+  }
+  // Grade is validated in both the constructor and the setter
+  // - The constructor check prevents invalid grades at object creation
+  // - The setter check prevents assigning invalid grades later
 
   // 3. Implement getters and setters for all properties.
   // Setters
@@ -36,9 +45,9 @@ class Student {
 
   set grade(double newGrade) {
     if (newGrade >= 0 && newGrade <= 100) {
-      newGrade = _grade;
+      _grade = newGrade;
     } else {
-      print("Invalid Grade");
+      print("Invalid Grade The Grade Must Be Between 0 and 100");
     }
   }
 
@@ -79,7 +88,7 @@ class Student {
   // 8. Demonstrate usage
   // 8.1
   void display() {
-    print("ID     : $_id");
+    print("ID: $_id");
     print("Name: $_name");
     print("Grade: $_grade");
     print("Email: ${_email ?? 'Not set'}");
@@ -100,7 +109,6 @@ Phone  : ${_phone ?? 'Not set'}
   }
 
   bool isPassed() {
-  return _grade >= 60;
-}
-
+    return _grade >= 60;
+  }
 }
